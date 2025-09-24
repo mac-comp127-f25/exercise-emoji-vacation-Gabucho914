@@ -1,5 +1,6 @@
 package emojivacation;
 
+
 import edu.macalester.graphics.*;
 
 import java.awt.Color;
@@ -32,8 +33,13 @@ public class EmojiVacation {
     }
 
     private static void doSlideShow(CanvasWindow canvas) {
-        // TODO: [Instructions step 8] Change this to an actual slideshow
+        while (true) {
+        //  Change this to an actual slideshow
         generateVacationPhoto(canvas);
+        canvas.draw();
+        canvas.pause(3000);
+        canvas.removeAll();
+        }
     }
 
     private static void generateVacationPhoto(CanvasWindow canvas) {
@@ -43,47 +49,54 @@ public class EmojiVacation {
 
         addCloudRows(canvas);
 
-        // TODO: [Instructions step 2] Create mountains 50% of the time.
-        //       You should randomly determine the size and number of layers
-        //       (within reasonable constraints).
-
+        // Create mountains 50% of the time.
+        if (percentChance(50)) {
+            double size = randomDouble(SCENE_WIDTH, SCENE_HEIGHT);
+            int layers = randomInt (1, 3);
+            addMountains(canvas, 400, size, layers);
+        }
         addGround(canvas, 400);
 
-        // TODO: [Instructions step 2] Create forests 60% of the time. You should randomly
-        //       determine the count for the number of trees. Pick reasonable values for
-        //       other parameters.
+        // Create forests 60% of the time. You should randomly
+        if(percentChance(60)){
+            int count = randomInt(6,14);
+            addForest(canvas,350,120,count);
+        }
 
         List<GraphicsGroup> family = createFamily(2, 3);
         positionFamily(family, 60, 550, 20);
-        // TODO: [Instructions step 4] Add each emoji in the list to the canvas
+       
+        // Add each emoji in the list to the canvas
+        for (GraphicsGroup person : family) {
+            canvas.add(person);
+        }
     }
 
     // –––––– Emoji family –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     private static List<GraphicsGroup> createFamily(int adultCount, int childCount) {
         double adultSize = 160, childSize = 90;
-
-        // TODO: [Instructions step 6] Change this so that instead of always creating one adult
-        //       and one child, it instead creates a list containing adultCount adults,
-        //       and childCount children.
-        //
-        // Hint: You can't use List.of() to do this, because you don't know the size of the
-        // resulting list before the code actually runs. What can you use?
-        //
-        return List.of(
-            createRandomEmoji(adultSize),
-            createRandomEmoji(childSize));
+        List<GraphicsGroup> family = new ArrayList<>();
+        for (int i = 0; i < adultCount; i++) {
+            family.add(createRandomEmoji(adultSize));   
+        }
+        for (int i = 0; i < childCount; i++) {
+            family.add(createRandomEmoji(childSize));
+        }
+        return family;
     }
 
     private static GraphicsGroup createRandomEmoji(double size) {
-        // TODO: [Instructions step 7] Change this so that instead of always creating a smiley face,
-        //       it randomly selects one of the many available emojis.
-        //
-        // Hint: You can use chained if/else conditionals: with a certain probability, return emoji
-        // type A, else with some other probability return emoji type B, else with a certain
-        // probability ... etc ... else return a smiley by default.
-        //
-        return ProvidedEmojis.createSmileyFace(size);
+        // Change this so that instead of always creating a smiley face,
+        int pick = randomInt(0,4);
+        switch (pick) {
+            case 0: return ProvidedEmojis.createSmileyFace(size);
+            case 1: return ProvidedEmojis.createContentedFace(size);
+            case 2: return ProvidedEmojis.createFrownyFace(size);
+            case 3: return ProvidedEmojis.createNauseousFace(size);
+            case 4: return ProvidedEmojis.createWinkingFace(size);
+            default: return ProvidedEmojis.createSmileyFace(size);
+        }
     }
 
     private static void positionFamily(
@@ -92,15 +105,12 @@ public class EmojiVacation {
             double baselineY,
             double spacing
     ) {
-        // TODO: [Instructions step 5] Iterate over the emojis in the list,
-        //       and position them all in a neat row
-
-        // The leftmost emoji’s left edge should be at leftX, and spacing is the number of pixels that should be between
-        // each emoji and the next. But how to you space them if the kids and adults have different widths? (Hint: you
-        // can ask any graphics object for its width.)
-        //
-        // The bottom of each emoji should be baselineY. But setPosition() sets the _top_! How do you set the bottom to
-        // a given position? (Hint: you can ask any graphics object for its height.)
+        double x = leftX;
+        for (GraphicsGroup person : family) {
+            double y = baselineY - person.getHeight();
+            person.setPosition(x,y);
+            x += person.getWidth() + spacing;
+        }
     }
 
     // –––––– Scenery ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
