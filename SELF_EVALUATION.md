@@ -47,12 +47,12 @@ Briefly reflect in writing on your experience solving this exercise. Just a
 sentence or two in response to each question is plenty.
 
 **What did you miss? What did you wish you did better?**
-
+I don't think I missed anything. I wish I could position my trees in a more aesthitic manner. 
 
 
 **What challenges did you face, and how did you overcome them?**
+I faced challenegs in positioning the family. I overcame this by going to preceptor hours. 
 
 
-
-**What is something that was interesting or exciting, or a lesson you learned
-  from this experience that you want to remember?**
+**What is something that was interesting or exciting, or a lesson you learned from this experience that you want to remember?**
+I love how instead of exiting everytime, we made a slideshow of changes. I want to remember all the callbacks that were made here and how I actually got the class to appear on the screen. 
